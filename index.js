@@ -1,5 +1,8 @@
 const express = require("express"),
+  session = require("cookie-session"),
+  passport = require("passport"),
   bodyParser = require("body-parser"),
+  cookieParser = require("cookie-parser"),
   Sequelize = require("sequelize"),
   sqlite = require("sqlite3");
 
@@ -9,11 +12,35 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const users = require("./routes/users");
+const posts = require("./routes/posts");
+const test = require("./routes");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "fnwangoawrbvoaernbmainepb"
+  })
+);
+
+require("./config/passport")(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// app.use(function(req, res, next) {
+//   res.locals.user = req.user
+// })
 
 app.use("/users", users);
+app.use("/posts", posts);
+
+// app.use("/", test);
+// app.use((req, res, next) => {
+//   //do things to handle 404
+//   next();
+// })
 
 models.sequelize.sync().then(function() {
   app.listen(port, function() {

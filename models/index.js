@@ -8,6 +8,7 @@ const sequelize = new Sequelize("database", "username", "password", {
   // SQLite only
   storage: "./test_db.sqlite"
 });
+
 const db = {};
 
 fs
