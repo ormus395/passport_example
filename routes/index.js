@@ -1,12 +1,14 @@
-// const express = require("express");
-// const router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-// router.get("/test", (req, res, next) => {
-//   req.session.username = "Jarec";
-// });
+router.get("/welcome", (req, res) => {
+  res.status(200).json({
+    message: "Hello there"
+  });
+});
 
-// router.get("/testPerson", (req, res) => {
-//   res.send(req.session.username);
-// });
+router.get("/test", (req, res) => {
+  console.log(req.headers);
+});
 
-// module.exports = router;
+module.exports = router;

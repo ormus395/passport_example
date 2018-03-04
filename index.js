@@ -1,4 +1,6 @@
 const express = require("express"),
+  cors = require("cors"),
+  logger = require("morgan"),
   session = require("cookie-session"),
   passport = require("passport"),
   bodyParser = require("body-parser"),
@@ -13,8 +15,13 @@ const port = process.env.PORT || 3000;
 
 const users = require("./routes/users");
 const posts = require("./routes/posts");
-const test = require("./routes");
+const welcome = require("./routes");
 
+if (!process.env.NODE_ENV) {
+  app.use(logger("dev"));
+}
+
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -35,6 +42,7 @@ app.use(passport.session());
 
 app.use("/users", users);
 app.use("/posts", posts);
+app.use("/", welcome);
 
 // app.use("/", test);
 // app.use((req, res, next) => {

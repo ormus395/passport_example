@@ -9,16 +9,12 @@ module.exports = function(passport) {
       User.find({ where: { username: username } })
         .then(user => {
           if (!user) {
-            console.log("No USer");
             return done(null, false);
           }
           bcrypt.compare(password, user.password).then(res => {
             if (res) {
-              console.log("Match");
-              console.log(user);
               return done(null, user);
             } else {
-              console.log("no match");
               return done(null, false);
             }
           });
@@ -28,7 +24,6 @@ module.exports = function(passport) {
   );
 
   passport.serializeUser(function(user, done) {
-    console.log(user.dataValues.id);
     done(null, user.dataValues.id);
   });
 

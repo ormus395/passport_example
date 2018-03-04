@@ -1,15 +1,13 @@
 const express = require("express"),
   router = express.Router(),
   { ensureAuthenticated } = require("../helpers/auth"),
-  Post = require("../models").Post;
+  Post = require("../models").Post,
+  PostController = require("../controllers/PostController");
 
-router.post("/", ensureAuthenticated, (req, res) => {
-  Post.create({ title: req.body.title, UserId: req.user.id }).then(result => {
-    res.status(200).json({
-      message: "Post create",
-      post: result
-    });
-  });
-});
+//API FOR /posts
+//Controller located at ../controllers/PostController
+router.post("/", ensureAuthenticated, PostController.createPost);
+router.get("/all/:userId", PostController.getPostsByUser);
+router.get("/all", PostController.getAllPosts);
 
 module.exports = router;
