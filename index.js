@@ -1,5 +1,5 @@
 const express = require("express"),
-  cors = require("cors"),
+  cors = require("./config/cors"),
   logger = require("morgan"),
   session = require("cookie-session"),
   passport = require("passport"),
@@ -20,8 +20,7 @@ const welcome = require("./routes");
 if (!process.env.NODE_ENV) {
   app.use(logger("dev"));
 }
-
-app.use(cors());
+app.use(cors);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -36,19 +35,9 @@ require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use(function(req, res, next) {
-//   res.locals.user = req.user
-// })
-
 app.use("/users", users);
 app.use("/posts", posts);
 app.use("/", welcome);
-
-// app.use("/", test);
-// app.use((req, res, next) => {
-//   //do things to handle 404
-//   next();
-// })
 
 models.sequelize.sync().then(function() {
   app.listen(port, function() {

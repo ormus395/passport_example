@@ -44,11 +44,13 @@ module.exports = {
     });
   },
 
-  createNewUser: function(req, res) {
-    User.create({
-      username: "theDude",
-      password: "12345"
-    }).then(user => {
+  createNewUser: function(req, res, next) {
+    console.log(req.body);
+    let newUser = {
+      username: req.body.username,
+      password: req.body.password
+    };
+    User.create(newUser).then(user => {
       res.status(200).json({
         msg: "Account created",
         user: user

@@ -15,7 +15,7 @@ router.get("/:userId", UserController.getSingleUser);
 //GET - used for getting user profile, protected route, user must be logged in to access
 router.get("/profile", ensureAuthenticated, UserController.getUserProfile);
 //POST - create user profile
-router.post("/new", (req, res) => UserController.createNewUser);
+router.post("/new", UserController.createNewUser);
 //POST - login user
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", {
