@@ -22,5 +22,19 @@ module.exports = (sequelize, DataTypes) => {
     models.User.hasMany(models.Post);
   };
 
+  User.prototype.comparePassword = function(password, cb) {
+    const user = this;
+    bcrypt.compare(password, user.password, function(err, isMatch) {
+      console.log(user.password);
+      if (!isMatch) {
+        console.log("No macyh");
+        return cb(err, false);
+      } else {
+        console.log("Match");
+        return cb(null, isMatch);
+      }
+    });
+  };
+
   return User;
 };

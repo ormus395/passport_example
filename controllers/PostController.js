@@ -1,12 +1,15 @@
 const Post = require("../models").Post;
 module.exports = {
   createPost: function(req, res) {
-    Post.create({ title: req.body.title, UserId: req.user.id }).then(result => {
-      res.status(200).json({
-        message: "Post create",
-        post: result
-      });
-    });
+    console.log(req.userData);
+    Post.create({ title: req.body.title, UserId: req.userData.userId }).then(
+      result => {
+        res.status(200).json({
+          message: "Post create",
+          post: result
+        });
+      }
+    );
   },
 
   getPostsByUser: function(req, res) {

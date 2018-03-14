@@ -1,4 +1,5 @@
 const User = require("../models").User;
+const auth = require("../config/auth");
 
 module.exports = {
   findAllUsers: function(req, res) {
@@ -28,6 +29,29 @@ module.exports = {
       res.status(200).json({
         message: "Single user",
         user: response
+      });
+    });
+  },
+
+  login: function(req, res) {
+    User.findOne({ where: { username: req.body.username } }).then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: "Login Failed"
+        });
+      }
+      console.log(user.comparePassword);
+      user.comparePassword(req.body.password, (err, isMatch) => {
+        console.log(req.body.password);
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
+        if (isMatch) {
+          console.log("Did shit");
+          const token = auth.signUser(user);
+          res.json({ message: "Logged in", token: token });
+        }
       });
     });
   },
