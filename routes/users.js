@@ -10,8 +10,7 @@ const UserController = require("../controllers/UserController");
 
 //Get all users, controller sits in contoller folder, cleaner routing now
 router.get("/all", UserController.findAllUsers);
-//Get user by id using params in URL
-router.get("/:userId", UserController.getSingleUser);
+
 //GET - used for getting user profile, protected route, user must be logged in to access
 router.get("/profile", auth.verifyUser, UserController.getUserProfile);
 //POST - create user profile
@@ -23,5 +22,8 @@ router.get("/logout", (req, res) => {
   req.logOut();
   res.send("logged out");
 });
+
+//Get user by id using params in URL
+// router.get("/:userId", UserController.getSingleUser);
 
 module.exports = router;

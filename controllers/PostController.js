@@ -1,4 +1,7 @@
 const Post = require("../models").Post;
+const User = require("../models").User;
+const pick = require("../helpers/pick");
+
 module.exports = {
   createPost: function(req, res) {
     console.log(req.userData);
@@ -22,7 +25,15 @@ module.exports = {
   },
 
   getAllPosts: function(req, res) {
-    Post.findAll().then(posts => {
+    Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: { exclude: ["password"] },
+          required: false
+        }
+      ]
+    }).then(posts => {
       res.json({
         message: "All posts",
         posts: posts

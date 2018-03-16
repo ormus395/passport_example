@@ -1,6 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   let Post = sequelize.define("Post", {
-    title: DataTypes.STRING
+    title: DataTypes.STRING,
+    like: DataTypes.INTEGER
   });
 
   Post.associate = function(models) {

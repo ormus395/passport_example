@@ -4,8 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   let User = sequelize.define(
     "User",
     {
+      fullname: DataTypes.STRING,
       username: DataTypes.STRING,
-      password: DataTypes.STRING
+      password: DataTypes.STRING,
+      avatar: DataTypes.STRING,
+      bio: DataTypes.TEXT
     },
     {
       hooks: {
@@ -34,6 +37,13 @@ module.exports = (sequelize, DataTypes) => {
         return cb(null, isMatch);
       }
     });
+  };
+
+  User.prototype.toJSON = function() {
+    let values = Object.assign({}, this.get());
+
+    delete values.password;
+    return values;
   };
 
   return User;

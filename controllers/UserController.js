@@ -22,6 +22,7 @@ module.exports = {
   },
 
   getSingleUser: function(req, res) {
+    console.log("I called bitches");
     User.findById(req.params.userId).then(user => {
       let response = {
         username: user.username
@@ -48,7 +49,6 @@ module.exports = {
           return next(err);
         }
         if (isMatch) {
-          console.log("Did shit");
           const token = auth.signUser(user);
           res.json({ message: "Logged in", token: token });
         }
@@ -57,7 +57,8 @@ module.exports = {
   },
 
   getUserProfile: function(req, res) {
-    User.find({ where: { id: req.user.id } }).then(user => {
+    console.log(req.userData);
+    User.find({ where: { id: req.userData.userId } }).then(user => {
       res.status(200).json({
         message: "Profile",
         user: {
